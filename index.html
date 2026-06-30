@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delicias Caseras — Menú & Pedidos</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Lora (headings) & Plus Jakarta Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            crema: '#fcfaf6',      // Fondo crema suave, cálido
+            cafe: '#2c221e',       // Texto y bordes chocolate oscuro (en vez de negro puro)
+            terracota: '#d75a34',  // Botón principal y acentos (cálido y apetitoso)
+            terracotaHover: '#c14723',
+            trigo: '#ebdcb9',      // Detalles y fondos secundarios
+            paja: '#f3eada',
+            verdeClaro: '#e4ebe4', // Badges de disponibilidad
+            verdeTexto: '#2e4a3b'
+          },
+          fontFamily: {
+            serif: ['Lora', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          boxShadow: {
+            'afiche': '4px 4px 0px 0px #2c221e',
+            'afiche-lg': '8px 8px 0px 0px #2c221e',
+            'afiche-sm': '2px 2px 0px 0px #2c221e',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #fcfaf6;
+      background-image: 
+        radial-gradient(rgba(44, 34, 30, 0.03) 1px, transparent 0),
+        radial-gradient(rgba(44, 34, 30, 0.03) 1px, transparent 0);
+      background-size: 24px 24px;
+      background-position: 0 0, 12px 12px;
+    }
+    
+    /* Efecto pizarra para títulos */
+    .pizarra-borde {
+      border: 3px double #2c221e;
+    }
+  </style>
+</head>
+<body class="text-cafe font-sans min-h-screen pb-32">
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <div class="max-w-2xl mx-auto px-4 pt-8">
+
+    <!-- CABECERA (AFICHE RÚSTICO) -->
+    <header class="bg-paja pizarra-borde rounded-xl p-6 text-center shadow-afiche-lg mb-8 border-2 border-cafe relative overflow-hidden">
+      <!-- Decoración de esquinas -->
+      <div class="absolute top-2 left-2 text-cafe opacity-40 font-serif select-none">✦</div>
+      <div class="absolute top-2 right-2 text-cafe opacity-40 font-serif select-none">✦</div>
+      <div class="absolute bottom-2 left-2 text-cafe opacity-40 font-serif select-none">✦</div>
+      <div class="absolute bottom-2 right-2 text-cafe opacity-40 font-serif select-none">✦</div>
+
+      <div class="inline-block px-3 py-1 border border-cafe text-xs uppercase tracking-widest font-semibold mb-2 rounded bg-crema">
+        El Sabor de lo Casero
+      </div>
+
+      <h1 id="shop-name" class="font-serif text-3xl md:text-4xl font-bold tracking-tight mb-2">
+        <!-- Se llena con JS -->
+        Cargando...
+      </h1>
+
+      <p class="font-serif italic text-sm md:text-base text-cafe/80 max-w-md mx-auto mb-4">
+        Roscas, bizcochos y entre otros, listos para tu mesa.
+      </p>
+
+      <div class="h-[2px] bg-cafe/20 max-w-xs mx-auto mb-4 relative">
+        <span class="absolute inset-y-0 left-1/2 -translate-x-1/2 -top-1 bg-paja px-2 text-xs">🥖</span>
+      </div>
+
+      <!-- Información Práctica -->
+      <div class="flex flex-col sm:flex-row gap-2 justify-center items-center text-xs font-medium text-cafe/90">
+        <span class="bg-crema px-2.5 py-1 border border-cafe rounded-full shadow-afiche-sm" id="envio-info">
+          <!-- Se llena con JS -->
+        </span>
+        <span class="bg-trigo px-2.5 py-1 border border-cafe rounded-full shadow-afiche-sm">
+          📍 Pedidos en el pueblo
+        </span>
+      </div>
+    </header>
+
+    <!-- INSTRUCCIONES DE COMPRA -->
+    <div class="bg-crema border-2 border-cafe rounded-lg p-4 mb-8 shadow-afiche text-sm">
+      <h3 class="font-serif font-bold text-base mb-2 flex items-center gap-2">
+        <span>📝</span> ¿Cómo pedir?
+      </h3>
+      <ol class="space-y-1.5 list-decimal list-inside text-cafe/80">
+        <li>Elegí lo que más te guste y sumá cantidades usando los botones <strong class="text-terracota font-bold">+</strong>.</li>
+        <li>Revisá tu pedido en la barra flotante que aparecerá abajo.</li>
+        <li>Hacé clic en <strong>"Enviar pedido por WhatsApp"</strong> para enviármelo. ¡Y listo, coordinamos!</li>
+      </ol>
+    </div>
+
+    <!-- FILTROS POR CATEGORÍA -->
+    <div class="mb-6 overflow-x-auto">
+      <div id="categories-container" class="flex gap-2 pb-2">
+        <!-- Se llena dinámicamente con JS -->
+      </div>
+    </div>
+
+    <!-- LISTADO DE PRODUCTOS -->
+    <main id="products-list" class="space-y-6">
+      <!-- Se llena dinámicamente con JS -->
+    </main>
+
+    <!-- FOOTER RÚSTICO -->
+    <footer class="mt-16 text-center border-t border-cafe/20 pt-8 pb-12 text-xs text-cafe/60">
+      <p class="font-serif italic mb-2" id="footer-shop-name"></p>
+      <p>Editá "productos.js" para agregar o quitar variedades.</p>
+    </footer>
+
+  </div>
+
+  <!-- BARRA FLOTANTE DE COMPRA (CARRITO) -->
+  <div id="cart-bar" class="fixed bottom-0 inset-x-0 bg-crema border-t-2 border-cafe shadow-[0_-4px_10px_rgba(44,34,30,0.15)] transform translate-y-full transition-transform duration-300 z-40">
+    <div class="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex flex-col">
+        <span class="text-xs text-cafe/60 font-semibold uppercase tracking-wider">Tu Pedido</span>
+        <span id="cart-summary-text" class="font-serif font-bold text-lg text-cafe">
+          0 productos — $0
+        </span>
+      </div>
+      
+      <button onclick="toggleCartDrawer(true)" class="bg-terracota text-white px-5 py-2.5 font-bold rounded-lg border-2 border-cafe shadow-afiche hover:bg-terracotaHover hover:-translate-y-0.5 active:translate-y-0 active:shadow-afiche-sm transition-all flex items-center gap-2">
+        <span>Ver Pedido</span>
+        <span class="bg-cafe text-white text-xs px-2 py-0.5 rounded-full" id="cart-badge">0</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- DRAWER / DETALLE DEL PEDIDO (DETALLE FLOTANTE) -->
+  <div id="cart-drawer-overlay" class="fixed inset-0 bg-cafe/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 z-50" onclick="toggleCartDrawer(false)">
+    <!-- Contenedor del Drawer -->
+    <div id="cart-drawer" class="absolute bottom-0 inset-x-0 bg-crema border-t-4 border-cafe rounded-t-2xl max-w-2xl mx-auto transform translate-y-full transition-transform duration-300 p-6 shadow-2xl max-h-[85vh] flex flex-col" onclick="event.stopPropagation()">
+      
+      <!-- Cabecera del Drawer -->
+      <div class="flex justify-between items-center pb-4 border-b-2 border-cafe/15 mb-4">
+        <h2 class="font-serif font-bold text-xl flex items-center gap-2">
+          <span>🛒</span> Tu Pedido Detallado
+        </h2>
+        <button onclick="toggleCartDrawer(false)" class="text-cafe/60 hover:text-cafe text-2xl font-bold p-1">&times;</button>
+      </div>
+
+      <!-- Lista de Productos en el Carrito -->
+      <div id="cart-items-list" class="overflow-y-auto flex-1 space-y-4 pr-1 mb-6">
+        <!-- Se llena con JS -->
+      </div>
+
+      <!-- Resumen y Enviar a WhatsApp -->
+      <div class="border-t-2 border-cafe/15 pt-4 bg-crema">
+        <!-- Costo de Envío / Aviso -->
+        <div class="bg-paja border border-cafe/30 rounded p-3 mb-4 text-xs flex justify-between items-center text-cafe/80">
+          <span>🚚 Envío / Entrega:</span>
+          <span class="font-semibold text-cafe" id="drawer-envio-text"></span>
+        </div>
+
+        <div class="flex justify-between items-center mb-4">
+          <span class="font-serif text-lg font-bold">Total Estimado:</span>
+          <span id="drawer-total-price" class="font-serif text-2xl font-black text-terracota">
+            $0
+          </span>
+        </div>
+
+        <button onclick="sendOrderToWhatsApp()" class="w-full bg-[#25D366] text-cafe font-extrabold text-base py-3.5 px-6 rounded-xl border-2 border-cafe shadow-afiche hover:bg-[#20ba59] hover:-translate-y-0.5 active:translate-y-0 active:shadow-afiche-sm transition-all flex items-center justify-center gap-2.5">
+          <!-- Icono de WhatsApp -->
+          <svg class="w-6 h-6 fill-cafe" viewBox="0 0 24 24">
+            <path d="M12.031 2a9.992 9.992 0 0 0-8.66 14.966L2 22l5.19-.177c1.547.88 3.312 1.34 5.09 1.36h.004a10 10 0 0 0 10-10A10 10 0 0 0 12.031 2zm6.3 12.923c-.3.15-.1.45-1.1 1.45-.6.6-1.1.9-2.1.4-.4-.2-1.9-.8-3.6-2.3-1.3-1.1-2.1-2.5-2.4-3-.3-.5 0-.7.2-.9.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C9.8 6.5 9 4.5 8.7 3.8c-.3-.7-.6-.6-.8-.6h-.6c-.2 0-.6.1-.9.5C6.1 4.1 5 5.2 5 7.4c0 2.2 1.6 4.3 1.8 4.6.2.3 3.1 4.7 7.5 6.6 1 .4 1.9.7 2.6.9 1.1.3 2.1.3 2.9.2.9-.1 2.7-1.1 3-2.1.4-1 .4-1.9.3-2.1-.1-.2-.4-.3-.7-.5z"/>
+          </svg>
+          <span>Enviar Pedido por WhatsApp</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL / LIGHTBOX PARA AMPLIAR IMÁGENES -->
+  <div id="image-modal" class="fixed inset-0 bg-cafe/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex items-center justify-center p-4" onclick="closeImageModal()">
+    <div class="relative bg-crema border-4 border-cafe rounded-2xl p-2 max-w-lg w-full shadow-afiche-lg transform scale-95 transition-transform duration-300 overflow-hidden" onclick="event.stopPropagation()">
+      <!-- Botón Cerrar -->
+      <button onclick="closeImageModal()" class="absolute top-2 right-2 bg-cafe text-crema font-bold text-lg w-8 h-8 rounded-full border-2 border-cafe flex items-center justify-center hover:bg-cafe/95 transition-all shadow-afiche-sm active:translate-y-0.5 z-10">
+        &times;
+      </button>
+      <!-- Imagen -->
+      <img id="modal-img" src="" alt="" class="w-full h-auto max-h-[70vh] object-contain rounded-lg border-2 border-cafe" />
+      <!-- Pie de foto -->
+      <div class="pt-3 pb-1 px-2 text-center">
+        <h3 id="modal-title" class="font-serif font-bold text-lg text-cafe"></h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS Y LÓGICA DE LA TIENDA -->
+  <script src="productos.js"></script>
+  <script>
+    // Validamos que los productos se carguen correctamente
+    if (typeof PRODUCTOS === 'undefined' || typeof TIENDA_CONFIG === 'undefined') {
+      alert("Error: No se pudo cargar el archivo 'productos.js'. Asegúrate de que esté en la misma carpeta que 'index.html'.");
+    }
+
+    // Mapa de Iconos en Formato SVG Rústico / Manual
+    const SVG_ICONS = {
+      rosca: `
+        <svg class="w-10 h-10 text-cafe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Rosca trenzada circular -->
+          <circle cx="12" cy="12" r="9" class="stroke-cafe fill-trigo" />
+          <circle cx="12" cy="12" r="3.5" class="stroke-cafe fill-crema" />
+          <!-- Detalles de la trenza / azúcar -->
+          <path d="M12 3a9 9 0 0 1 6.36 2.64M18.36 5.64A9 9 0 0 1 21 12M21 12a9 9 0 0 1-2.64 6.36M18.36 18.36A9 9 0 0 1 12 21M12 21a9 9 0 0 1-6.36-2.64M5.64 18.36A9 9 0 0 1 3 12M3 12a9 9 0 0 1 2.64-6.36M5.64 5.64A9 9 0 0 1 12 3" stroke-dasharray="2 3"/>
+          <path d="M12 3.5c.3 1 .3 2 0 3M12 17.5c.3 1 .3 2 0 3M3.5 12c1 .3 2 .3 3 0M17.5 12c1 .3 2 .3 3 0" />
+          <circle cx="9" cy="7" r="1" class="fill-terracota stroke-none" />
+          <circle cx="15" cy="7" r="1" class="fill-terracota stroke-none" />
+          <circle cx="8" cy="16" r="1" class="fill-terracota stroke-none" />
+          <circle cx="16" cy="15" r="1" class="fill-terracota stroke-none" />
+        </svg>`,
+      bizcocho: `
+        <svg class="w-10 h-10 text-cafe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Pila de bizcochitos de grasa -->
+          <ellipse cx="9" cy="15" rx="6" ry="4" class="stroke-cafe fill-trigo" />
+          <ellipse cx="14" cy="9" rx="6" ry="4" class="stroke-cafe fill-crema" />
+          <!-- Pinchazos de tenedor clásicos -->
+          <circle cx="12" cy="8" r="0.5" fill="currentColor" stroke="none" />
+          <circle cx="14" cy="9" r="0.5" fill="currentColor" stroke="none" />
+          <circle cx="16" cy="10" r="0.5" fill="currentColor" stroke="none" />
+          <circle cx="13" cy="10" r="0.5" fill="currentColor" stroke="none" />
+          <circle cx="15" cy="8" r="0.5" fill="currentColor" stroke="none" />
+          
+          <circle cx="7" cy="14" r="0.5" fill="currentColor" stroke="none" opacity="0.7"/>
+          <circle cx="9" cy="15" r="0.5" fill="currentColor" stroke="none" opacity="0.7"/>
+          <circle cx="11" cy="16" r="0.5" fill="currentColor" stroke="none" opacity="0.7"/>
+        </svg>`,
+      budin: `
+        <svg class="w-10 h-10 text-cafe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Budín inglés tipo bloque con lomo levantado -->
+          <path d="M4 17h16l-1-7H5l-1 7z" class="stroke-cafe fill-trigo" />
+          <path d="M5 10c0-2 2-3 7-3s7 1 7 3" class="stroke-cafe fill-paja" />
+          <path d="M8 7v2M12 7v2M16 7v2" />
+          <path d="M4 17c0 1.5 2 2 8 2s8-.5 8-2" class="stroke-cafe fill-none" />
+        </svg>`,
+      factura: `
+        <svg class="w-10 h-10 text-cafe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Medialuna / Croissant -->
+          <path d="M20 16.5C20 12 17 8 12.5 8c-1.5 0-3 .5-4 1.5-1.5-1.5-3.5-2-5.5-1.5 2.5 2.5 4 6 4 8.5 0 1 .5 1.5 1.5 1.5h10c.8 0 1.5-.5 1.5-1.5z" class="stroke-cafe fill-trigo" />
+          <path d="M7.5 16.5c.5-3 2.5-5 5-5M11.5 17c.5-2.5 2-4 4-4M5.5 15c.5-2 1.5-3 3-3" />
+        </svg>`,
+      pan: `
+        <svg class="w-10 h-10 text-cafe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Pan de campo de forma redonda/ovalada tallado -->
+          <ellipse cx="12" cy="13" rx="9" ry="6" class="stroke-cafe fill-trigo" />
+          <!-- Cortes en el pan de campo -->
+          <path d="M8 10c1 1.5 2 3 3 4.5M12 9c1 1.5 2 3 3 4.5M16 9.5c.7 1 1.5 2 2.2 3" />
+        </svg>`,
+      dulce: `
+        <svg class="w-10 h-10 text-cafe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Magdalena / Cupcake simple -->
+          <path d="M6 12h12l-1.5 7.5A1.5 1.5 0 0 1 15 21H9a1.5 1.5 0 0 1-1.5-1.5L6 12z" class="stroke-cafe fill-trigo" />
+          <path d="M5.5 12a3 3 0 0 1 5.5-2 3 3 0 0 1 5 0 3 3 0 0 1 2.5 2" class="stroke-cafe fill-crema" />
+          <circle cx="12" cy="6" r="1.5" class="fill-terracota stroke-cafe" />
+          <path d="M9 12v6M12 12v6M15 12v6" />
+        </svg>`
+    };
+
+    // Estado del Carrito: { productId: cantidad }
+    const cart = {};
+    let selectedCategory = "Todos";
+
+    // Inicializar Configuración en la Web
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("shop-name").textContent = TIENDA_CONFIG.nombre;
+      document.getElementById("footer-shop-name").textContent = `© ${new Date().getFullYear()} ${TIENDA_CONFIG.nombre}`;
+      document.getElementById("envio-info").textContent = `🚚 ${TIENDA_CONFIG.mensajeEnvio}`;
+      document.getElementById("drawer-envio-text").textContent = TIENDA_CONFIG.mensajeEnvio;
+
+      renderCategories();
+      renderProducts();
+      updateCartUI();
+    });
+
+    // Obtener Categorías Únicas
+    function getCategories() {
+      const categories = new Set();
+      PRODUCTOS.forEach(p => {
+        if (p.disponible !== false && p.categoria) {
+          categories.add(p.categoria);
+        }
+      });
+      return ["Todos", ...Array.from(categories)];
+    }
+
+    // Renderizar Filtros de Categoría
+    function renderCategories() {
+      const container = document.getElementById("categories-container");
+      const categories = getCategories();
+
+      container.innerHTML = categories.map(cat => {
+        const isActive = cat === selectedCategory;
+        const activeClasses = "bg-cafe text-crema border-cafe shadow-afiche-sm";
+        const inactiveClasses = "bg-crema text-cafe border-cafe/40 hover:border-cafe hover:bg-paja";
+
+        return `
+          <button 
+            onclick="setCategory('${cat}')"
+            class="px-4 py-2 border-2 text-sm font-bold font-serif whitespace-nowrap rounded-lg transition-all ${isActive ? activeClasses : inactiveClasses}"
+          >
+            ${cat}
+          </button>
+        `;
+      }).join('');
+    }
+
+    // Cambiar Categoría Seleccionada
+    function setCategory(category) {
+      selectedCategory = category;
+      renderCategories();
+      renderProducts();
+    }
+
+    // Renderizar Productos en Pantalla
+    function renderProducts() {
+      const container = document.getElementById("products-list");
+      
+      // Filtrar
+      const filtered = PRODUCTOS.filter(p => {
+        if (selectedCategory === "Todos") return true;
+        return p.categoria === selectedCategory;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 border-2 border-dashed border-cafe/30 rounded-xl">
+            <p class="font-serif text-lg italic text-cafe/60">No hay productos en esta categoría por el momento.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(p => {
+        const isDisponible = p.disponible !== false;
+        const iconSvg = SVG_ICONS[p.icono] || SVG_ICONS.dulce;
+
+        // Estilos si no está disponible
+        const opacityClass = isDisponible ? "" : "opacity-50 select-none pointer-events-none";
+        const disabledBadge = isDisponible 
+          ? "" 
+          : `<span class="absolute top-2 right-2 bg-cafe text-crema font-bold text-xxs px-2 py-0.5 border border-crema rounded rotate-3 shadow-afiche-sm">AGOTADO</span>`;
+
+        // Generar el bloque de precios y controles
+        let preciosHTML = "";
+
+        if (isDisponible) {
+          if (p.precios && p.precios.length > 0) {
+            // Producto con múltiples opciones de precio (ej: Entero / Porción)
+            preciosHTML = `
+              <div class="space-y-3 mt-3 w-full border-t border-cafe/10 pt-3">
+                ${p.precios.map(o => {
+                  const cartKey = `${p.id}_${o.id}`;
+                  const qty = cart[cartKey] || 0;
+                  return `
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-sm bg-paja/40 border border-cafe/15 p-2 rounded-lg shadow-afiche-sm">
+                      <div class="flex items-baseline gap-2">
+                        <span class="font-serif font-bold text-cafe">${o.nombre}</span>
+                        <span class="font-bold text-terracota">${TIENDA_CONFIG.moneda}${o.precio}</span>
+                      </div>
+                      
+                      <div class="flex items-center gap-2 self-end sm:self-auto">
+                        <div class="flex items-center border border-cafe rounded bg-crema overflow-hidden">
+                          <button 
+                            onclick="updateQty('${cartKey}', -1)"
+                            class="px-2 py-0.5 font-bold text-cafe hover:bg-trigo transition-colors border-r border-cafe"
+                          >
+                            -
+                          </button>
+                          <span id="qty-${cartKey}" class="px-3 py-0.5 font-bold text-xs w-8 text-center bg-white select-none">
+                            ${qty}
+                          </span>
+                          <button 
+                            onclick="updateQty('${cartKey}', 1)"
+                            class="px-2 py-0.5 font-bold text-cafe hover:bg-trigo transition-colors border-l border-cafe"
+                          >
+                            +
+                          </button>
+                        </div>
+                        
+                        <button 
+                          onclick="orderInstant('${p.id}', '${o.id}')"
+                          class="bg-trigo hover:bg-paja text-cafe border border-cafe font-bold text-xxs px-2 py-1 rounded shadow-afiche-sm transition-all active:translate-y-0.5"
+                        >
+                          Pedir 💬
+                        </button>
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            `;
+          } else {
+            // Producto con precio simple
+            const cartKey = p.id;
+            const qty = cart[cartKey] || 0;
+            preciosHTML = `
+              <div class="flex flex-wrap items-center justify-between gap-3 mt-4 w-full">
+                <span class="text-xs font-semibold text-cafe/60 uppercase tracking-wider">
+                  ${p.categoria}
+                </span>
+                
+                <div class="flex items-center gap-2">
+                  <div class="flex items-center border-2 border-cafe rounded-lg bg-crema overflow-hidden shadow-afiche-sm">
+                    <button 
+                      onclick="updateQty('${cartKey}', -1)"
+                      class="px-3 py-1 font-black text-cafe hover:bg-trigo transition-colors border-r-2 border-cafe"
+                    >
+                      -
+                    </button>
+                    <span id="qty-${cartKey}" class="px-4 py-1 font-bold text-sm w-10 text-center bg-white select-none">
+                      ${qty}
+                    </span>
+                    <button 
+                      onclick="updateQty('${cartKey}', 1)"
+                      class="px-3 py-1 font-black text-cafe hover:bg-trigo transition-colors border-l-2 border-cafe"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <button 
+                    onclick="orderInstant('${p.id}')"
+                    class="bg-trigo hover:bg-paja text-cafe border-2 border-cafe font-bold text-xs px-3 py-1.5 rounded-lg shadow-afiche-sm transition-all active:translate-y-0.5"
+                    title="Pedir solo este producto inmediatamente"
+                  >
+                    Pedir Solo Este 💬
+                  </button>
+                </div>
+              </div>
+            `;
+          }
+        } else {
+          preciosHTML = `
+            <div class="flex items-center justify-between gap-3 mt-4 w-full">
+              <span class="text-xs font-semibold text-cafe/60 uppercase tracking-wider">
+                ${p.categoria}
+              </span>
+              <span class="text-xs font-bold text-red-700 bg-red-100 px-2.5 py-1 border border-red-300 rounded-full">
+                Agotado por hoy
+              </span>
+            </div>
+          `;
+        }
+
+        // Encabezado de precio (solo si no tiene opciones múltiples abajo)
+        const precioHeaderHTML = (!p.precios || p.precios.length === 0)
+          ? `<span class="font-serif text-xl font-extrabold text-terracota self-start sm:self-auto">
+              ${TIENDA_CONFIG.moneda}${p.precio}
+             </span>`
+          : "";
+
+        return `
+          <div class="bg-crema border-2 border-cafe rounded-xl p-5 shadow-afiche hover:shadow-afiche-lg transition-all relative overflow-hidden flex flex-col md:flex-row gap-4 items-start ${opacityClass}">
+            
+            ${disabledBadge}
+
+            <!-- Ilustración o Imagen -->
+            ${p.imagen && p.imagen.trim() !== "" 
+              ? `<img src="${p.imagen}" alt="${p.nombre}" onclick="openImageModal('${p.imagen}', '${p.nombre.replace(/'/g, "\\'")}')" class="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 rounded-lg border-2 border-cafe object-cover shadow-afiche-sm self-center md:self-start cursor-zoom-in hover:scale-105 active:scale-95 transition-all duration-200" title="Hacé clic para ampliar" />`
+              : `<div class="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 bg-trigo border-2 border-cafe rounded-lg flex items-center justify-center shadow-afiche-sm self-center md:self-start">
+                  ${iconSvg}
+                </div>`
+            }
+
+            <!-- Información -->
+            <div class="flex-1 w-full">
+              <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-1.5">
+                <h2 class="font-serif text-xl font-bold tracking-tight text-cafe">${p.nombre}</h2>
+                ${(!p.precios || p.precios.length === 0) ? `<div class="hidden sm:block flex-1 mx-2 border-b-2 border-dotted border-cafe/30"></div>` : ""}
+                ${precioHeaderHTML}
+              </div>
+              
+              ${p.descripcion ? `<p class="text-sm text-cafe/80 mb-2 leading-relaxed max-w-xl">${p.descripcion}</p>` : ""}
+
+              ${preciosHTML}
+
+            </div>
+
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Actualizar Cantidad de un Producto
+    function updateQty(cartKey, amount) {
+      const current = cart[cartKey] || 0;
+      const target = current + amount;
+
+      if (target <= 0) {
+        delete cart[cartKey];
+      } else {
+        cart[cartKey] = target;
+      }
+
+      // Actualizar número en el input específico sin re-renderizar todo
+      const label = document.getElementById(`qty-${cartKey}`);
+      if (label) {
+        label.textContent = cart[cartKey] || 0;
+      }
+
+      updateCartUI();
+    }
+
+    // Calcular Totales
+    function getCartTotal() {
+      let count = 0;
+      let price = 0;
+
+      for (const cartKey in cart) {
+        const qty = cart[cartKey];
+        const parts = cartKey.split("_");
+        const productId = parts[0];
+        const optionId = parts[1];
+
+        const product = PRODUCTOS.find(p => p.id === productId);
+        if (product) {
+          if (optionId && product.precios) {
+            const option = product.precios.find(o => o.id === optionId);
+            if (option) {
+              count += qty;
+              price += option.precio * qty;
+            }
+          } else {
+            count += qty;
+            price += product.precio * qty;
+          }
+        }
+      }
+
+      return { count, price };
+    }
+
+    // Actualizar Barra de Carrito y Drawer
+    function updateCartUI() {
+      const { count, price } = getCartTotal();
+
+      // Actualizar barra flotante
+      const cartBar = document.getElementById("cart-bar");
+      const summaryText = document.getElementById("cart-summary-text");
+      const badge = document.getElementById("cart-badge");
+
+      if (count > 0) {
+        cartBar.classList.remove("translate-y-full");
+        summaryText.textContent = `${count} producto${count > 1 ? 's' : ''} — ${TIENDA_CONFIG.moneda}${price}`;
+        badge.textContent = count;
+      } else {
+        cartBar.classList.add("translate-y-full");
+        toggleCartDrawer(false); // Cerrar si queda vacío
+      }
+
+      // Actualizar Drawer (si está abierto o para la próxima apertura)
+      renderCartDrawerItems();
+    }
+
+    // Renderizar Productos en el Resumen / Drawer
+    function renderCartDrawerItems() {
+      const container = document.getElementById("cart-items-list");
+      const drawerTotal = document.getElementById("drawer-total-price");
+      const { price } = getCartTotal();
+
+      drawerTotal.textContent = `${TIENDA_CONFIG.moneda}${price}`;
+
+      const items = [];
+      for (const cartKey in cart) {
+        const qty = cart[cartKey];
+        const parts = cartKey.split("_");
+        const productId = parts[0];
+        const optionId = parts[1];
+
+        const product = PRODUCTOS.find(p => p.id === productId);
+        if (product) {
+          if (optionId && product.precios) {
+            const option = product.precios.find(o => o.id === optionId);
+            if (option) {
+              items.push({ 
+                cartKey,
+                nombre: `${product.nombre} (${option.nombre})`,
+                precio: option.precio,
+                qty 
+              });
+            }
+          } else {
+            items.push({ 
+              cartKey,
+              nombre: product.nombre,
+              precio: product.precio,
+              qty 
+            });
+          }
+        }
+      }
+
+      if (items.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-cafe/60 italic">
+            El pedido está vacío.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = items.map(item => {
+        const subtotal = item.precio * item.qty;
+        return `
+          <div class="flex items-center justify-between border-2 border-cafe p-3 rounded-lg bg-white shadow-afiche-sm">
+            <div class="flex-1 pr-3">
+              <h4 class="font-serif font-bold text-sm leading-tight text-cafe">${item.nombre}</h4>
+              <span class="text-xs text-cafe/60">
+                ${TIENDA_CONFIG.moneda}${item.precio} c/u
+              </span>
+            </div>
+            
+            <div class="flex items-center gap-4">
+              <!-- Botones de Cantidad Simplificados -->
+              <div class="flex items-center border border-cafe rounded bg-crema overflow-hidden">
+                <button onclick="updateQty('${item.cartKey}', -1)" class="px-2 py-0.5 font-bold text-xs hover:bg-trigo border-r border-cafe">-</button>
+                <span class="px-2.5 py-0.5 text-xs font-bold w-7 text-center">${item.qty}</span>
+                <button onclick="updateQty('${item.cartKey}', 1)" class="px-2 py-0.5 font-bold text-xs hover:bg-trigo border-l border-cafe">+</button>
+              </div>
+              
+              <!-- Subtotal -->
+              <span class="font-serif font-bold text-sm text-terracota w-16 text-right">
+                ${TIENDA_CONFIG.moneda}${subtotal}
+              </span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Abrir/Cerrar Drawer
+    function toggleCartDrawer(open) {
+      const overlay = document.getElementById("cart-drawer-overlay");
+      const drawer = document.getElementById("cart-drawer");
+
+      if (open) {
+        overlay.classList.remove("pointer-events-none", "opacity-0");
+        drawer.classList.remove("translate-y-full");
+      } else {
+        overlay.classList.add("pointer-events-none", "opacity-0");
+        drawer.classList.add("translate-y-full");
+      }
+    }
+
+    // Pedido Instantáneo (Un solo producto u opción)
+    function orderInstant(productId, optionId = null) {
+      const product = PRODUCTOS.find(p => p.id === productId);
+      if (!product) return;
+
+      let itemNombre = product.nombre;
+      let itemPrecio = product.precio;
+
+      if (optionId && product.precios) {
+        const option = product.precios.find(o => o.id === optionId);
+        if (option) {
+          itemNombre = `${product.nombre} (${option.nombre})`;
+          itemPrecio = option.precio;
+        }
+      }
+
+      const mensaje = `${TIENDA_CONFIG.mensajeBase}\n\n- *1 x ${itemNombre}* (${TIENDA_CONFIG.moneda}${itemPrecio})\n\nTotal estimado: *${TIENDA_CONFIG.moneda}${itemPrecio}*\n\n_${TIENDA_CONFIG.mensajeEnvio}_`;
+      const url = `https://wa.me/${TIENDA_CONFIG.whatsapp}?text=${encodeURIComponent(mensaje)}`;
+      
+      window.open(url, "_blank");
+    }
+
+    // Enviar Pedido Completo a WhatsApp
+    function sendOrderToWhatsApp() {
+      const { price } = getCartTotal();
+      
+      let listado = "";
+      for (const cartKey in cart) {
+        const qty = cart[cartKey];
+        const parts = cartKey.split("_");
+        const productId = parts[0];
+        const optionId = parts[1];
+
+        const product = PRODUCTOS.find(p => p.id === productId);
+        if (product) {
+          let itemNombre = product.nombre;
+          let itemPrecio = product.precio;
+
+          if (optionId && product.precios) {
+            const option = product.precios.find(o => o.id === optionId);
+            if (option) {
+              itemNombre = `${product.nombre} (${option.nombre})`;
+              itemPrecio = option.precio;
+            }
+          }
+
+          const subtotal = itemPrecio * qty;
+          listado += `- *${qty} x ${itemNombre}* (${TIENDA_CONFIG.moneda}${subtotal})\n`;
+        }
+      }
+
+      const mensaje = `${TIENDA_CONFIG.mensajeBase}\n\n${listado}\nTotal estimado: *${TIENDA_CONFIG.moneda}${price}*\n\n_${TIENDA_CONFIG.mensajeEnvio}_`;
+      const url = `https://wa.me/${TIENDA_CONFIG.whatsapp}?text=${encodeURIComponent(mensaje)}`;
+      
+      window.open(url, "_blank");
+    }
+
+    // Lógica para Ampliar Imágenes (Lightbox)
+    function openImageModal(src, title) {
+      const modal = document.getElementById("image-modal");
+      const img = document.getElementById("modal-img");
+      const modalTitle = document.getElementById("modal-title");
+
+      img.src = src;
+      img.alt = title;
+      modalTitle.textContent = title;
+
+      modal.classList.remove("pointer-events-none", "opacity-0");
+      const container = modal.querySelector(".transform");
+      container.classList.remove("scale-95");
+      container.classList.add("scale-100");
+    }
+
+    function closeImageModal() {
+      const modal = document.getElementById("image-modal");
+      modal.classList.add("pointer-events-none", "opacity-0");
+      const container = modal.querySelector(".transform");
+      container.classList.remove("scale-100");
+      container.classList.add("scale-95");
+    }
+
+    // Cerrar modales con tecla Escape
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeImageModal();
+        toggleCartDrawer(false);
+      }
+    });
+  </script>
+</body>
+</html>
