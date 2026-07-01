@@ -461,11 +461,16 @@
         }
 
         // Encabezado de precio (solo si no tiene opciones múltiples abajo)
-        const precioHeaderHTML = (!p.precios || p.precios.length === 0)
-          ? `<span class="font-serif text-xl font-extrabold text-terracota self-start sm:self-auto">
-              ${TIENDA_CONFIG.moneda}${p.precio}
-             </span>`
-          : "";
+        let precioHeaderHTML = "";
+        if (!p.precios || p.precios.length === 0) {
+          const isNumeric = !isNaN(parseFloat(p.precio)) && isFinite(p.precio);
+          const precioDisplay = isNumeric 
+            ? `${TIENDA_CONFIG.moneda}${p.precio}` 
+            : "Precio a consultar";
+          precioHeaderHTML = `<span class="font-serif text-xl font-extrabold text-terracota self-start sm:self-auto">
+              ${precioDisplay}
+             </span>`;
+        }
 
         return `
           <div class="bg-crema border-2 border-cafe rounded-xl p-5 shadow-afiche hover:shadow-afiche-lg transition-all relative overflow-hidden flex flex-col md:flex-row gap-4 items-start ${opacityClass}">
@@ -523,6 +528,7 @@
     function getCartTotal() {
       let count = 0;
       let price = 0;
+      let hasConsultar = false;
 
       for (const cartKey in cart) {
         const qty = cart[cartKey];
@@ -540,17 +546,22 @@
             }
           } else {
             count += qty;
-            price += product.precio * qty;
+            const isNumeric = !isNaN(parseFloat(product.precio)) && isFinite(product.precio);
+            if (isNumeric) {
+              price += parseFloat(product.precio) * qty;
+            } else {
+              hasConsultar = true;
+            }
           }
         }
       }
 
-      return { count, price };
+      return { count, price, hasConsultar };
     }
 
     // Actualizar Barra de Carrito y Drawer
     function updateCartUI() {
-      const { count, price } = getCartTotal();
+      const { count, price, hasConsultar } = getCartTotal();
 
       // Actualizar barra flotante
       const cartBar = document.getElementById("cart-bar");
@@ -559,7 +570,13 @@
 
       if (count > 0) {
         cartBar.classList.remove("translate-y-full");
-        summaryText.textContent = `${count} producto${count > 1 ? 's' : ''} — ${TIENDA_CONFIG.moneda}${price}`;
+        let displayTotal = "";
+        if (hasConsultar) {
+          displayTotal = price > 0 ? `${TIENDA_CONFIG.moneda}${price} + Consultar` : "Precio a consultar";
+        } else {
+          displayTotal = `${TIENDA_CONFIG.moneda}${price}`;
+        }
+        summaryText.textContent = `${count} producto${count > 1 ? 's' : ''} — ${displayTotal}`;
         badge.textContent = count;
       } else {
         cartBar.classList.add("translate-y-full");
@@ -574,9 +591,13 @@
     function renderCartDrawerItems() {
       const container = document.getElementById("cart-items-list");
       const drawerTotal = document.getElementById("drawer-total-price");
-      const { price } = getCartTotal();
+      const { price, hasConsultar } = getCartTotal();
 
-      drawerTotal.textContent = `${TIENDA_CONFIG.moneda}${price}`;
+      if (hasConsultar) {
+        drawerTotal.textContent = price > 0 ? `${TIENDA_CONFIG.moneda}${price} + Consultar` : "A consultar";
+      } else {
+        drawerTotal.textContent = `${TIENDA_CONFIG.moneda}${price}`;
+      }
 
       const items = [];
       for (const cartKey in cart) {
@@ -618,13 +639,20 @@
       }
 
       container.innerHTML = items.map(item => {
-        const subtotal = item.precio * item.qty;
+        const isNumeric = !isNaN(parseFloat(item.precio)) && isFinite(item.precio);
+        const subtotalHTML = isNumeric 
+          ? `${TIENDA_CONFIG.moneda}${item.precio * item.qty}` 
+          : "Consultar";
+        const precioUnitarioHTML = isNumeric 
+          ? `${TIENDA_CONFIG.moneda}${item.precio} c/u` 
+          : "Precio a consultar";
+
         return `
           <div class="flex items-center justify-between border-2 border-cafe p-3 rounded-lg bg-white shadow-afiche-sm">
             <div class="flex-1 pr-3">
               <h4 class="font-serif font-bold text-sm leading-tight text-cafe">${item.nombre}</h4>
               <span class="text-xs text-cafe/60">
-                ${TIENDA_CONFIG.moneda}${item.precio} c/u
+                ${precioUnitarioHTML}
               </span>
             </div>
             
@@ -638,7 +666,7 @@
               
               <!-- Subtotal -->
               <span class="font-serif font-bold text-sm text-terracota w-16 text-right">
-                ${TIENDA_CONFIG.moneda}${subtotal}
+                ${subtotalHTML}
               </span>
             </div>
           </div>
@@ -676,7 +704,11 @@
         }
       }
 
-      const mensaje = `${TIENDA_CONFIG.mensajeBase}\n\n- *1 x ${itemNombre}* (${TIENDA_CONFIG.moneda}${itemPrecio})\n\nTotal estimado: *${TIENDA_CONFIG.moneda}${itemPrecio}*\n\n_${TIENDA_CONFIG.mensajeEnvio}_`;
+      const isNumeric = !isNaN(parseFloat(itemPrecio)) && isFinite(itemPrecio);
+      const precioTexto = isNumeric ? `${TIENDA_CONFIG.moneda}${itemPrecio}` : "Precio a consultar";
+      const totalTexto = isNumeric ? `${TIENDA_CONFIG.moneda}${itemPrecio}` : "A consultar";
+
+      const mensaje = `${TIENDA_CONFIG.mensajeBase}\n\n- *1 x ${itemNombre}* (${precioTexto})\n\nTotal estimado: *${totalTexto}*\n\n_${TIENDA_CONFIG.mensajeEnvio}_`;
       const url = `https://wa.me/${TIENDA_CONFIG.whatsapp}?text=${encodeURIComponent(mensaje)}`;
       
       window.open(url, "_blank");
@@ -684,7 +716,7 @@
 
     // Enviar Pedido Completo a WhatsApp
     function sendOrderToWhatsApp() {
-      const { price } = getCartTotal();
+      const { price, hasConsultar } = getCartTotal();
       
       let listado = "";
       for (const cartKey in cart) {
@@ -706,12 +738,24 @@
             }
           }
 
-          const subtotal = itemPrecio * qty;
-          listado += `- *${qty} x ${itemNombre}* (${TIENDA_CONFIG.moneda}${subtotal})\n`;
+          const isNumeric = !isNaN(parseFloat(itemPrecio)) && isFinite(itemPrecio);
+          if (isNumeric) {
+            const subtotal = itemPrecio * qty;
+            listado += `- *${qty} x ${itemNombre}* (${TIENDA_CONFIG.moneda}${subtotal})\n`;
+          } else {
+            listado += `- *${qty} x ${itemNombre}* (Precio a consultar)\n`;
+          }
         }
       }
 
-      const mensaje = `${TIENDA_CONFIG.mensajeBase}\n\n${listado}\nTotal estimado: *${TIENDA_CONFIG.moneda}${price}*\n\n_${TIENDA_CONFIG.mensajeEnvio}_`;
+      let totalTexto = "";
+      if (hasConsultar) {
+        totalTexto = price > 0 ? `${TIENDA_CONFIG.moneda}${price} + a consultar` : "A consultar";
+      } else {
+        totalTexto = `${TIENDA_CONFIG.moneda}${price}`;
+      }
+
+      const mensaje = `${TIENDA_CONFIG.mensajeBase}\n\n${listado}\nTotal estimado: *${totalTexto}*\n\n_${TIENDA_CONFIG.mensajeEnvio}_`;
       const url = `https://wa.me/${TIENDA_CONFIG.whatsapp}?text=${encodeURIComponent(mensaje)}`;
       
       window.open(url, "_blank");
