@@ -108,11 +108,11 @@ const PRODUCTOS = [
     ]
   },
   {
-    id: "trenza-chicharron",
-    nombre: "Trenza de Chicharrón",
-    descripcion: "",
+    id: "bizcochos",
+    nombre: "Bizcochos de crema, croissants y tipo dona",
+    descripcion: "Margarita con crema, croissants con membrillo, tipo dona con membrillo y tipo dona de chocolate",
     precio: 150,
-    categoria: "Salados",
+    categoria: "Dulces",
     icono: "pan",
     imagen: "images/f4ae27eb-10a8-4315-bf67-9318bc8326b1.jpg",
     disponible: true
