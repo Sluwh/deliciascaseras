@@ -1,7 +1,7 @@
 // CONFIGURACIÓN DE LA TIENDA
 const TIENDA_CONFIG = {
   nombre: "Delicias de Casa", // Nombre de tu panadería/pastelería
-  whatsapp: "59899150389",    // Tu número de WhatsApp (con código de país, SIN símbolos, SIN espacios. Ej: 598... para Uruguay)
+  whatsapp: "59891072564",    // Tu número de WhatsApp (con código de país, SIN símbolos, SIN espacios. Ej: 598... para Uruguay)
   mensajeBase: "¡Hola! Quisiera hacer el siguiente pedido desde la web:",
   moneda: "$",                 // Símbolo de moneda
   mensajeEnvio: "Retiro por domicilio o consultar por envío en el pueblo",
