@@ -120,7 +120,7 @@ const PRODUCTOS = [
   {
     id: "trenza-chicharron",
     nombre: "Trenza de chicharrón",
-    descripcion: "Trenza de chicharrón",
+    descripcion: "",
     precio: 150,
     categoria: "Salados",
     icono: "pan",
