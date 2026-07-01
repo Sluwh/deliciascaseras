@@ -116,5 +116,15 @@ const PRODUCTOS = [
     icono: "pan",
     imagen: "images/f4ae27eb-10a8-4315-bf67-9318bc8326b1.jpg",
     disponible: true
+  },
+  {
+    id: "trenza-chicharron",
+    nombre: "Trenza de chicharrón",
+    descripcion: "Trenza de chicharrón",
+    precio: 150,
+    categoria: "Salados",
+    icono: "pan",
+    imagen: "images/trenza.jpeg",
+    disponible: true
   }
 ];
