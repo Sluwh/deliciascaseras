@@ -119,12 +119,6 @@
         </span>
       </div>
 
-      <!-- Botón para ver Anuncios en celular (oculto en pantallas grandes) -->
-      <div class="block min-[1150px]:hidden mt-4">
-        <button onclick="openAdsModal()" class="inline-flex items-center gap-2 bg-trigo hover:bg-paja text-cafe border-2 border-cafe px-4 py-2.5 rounded-lg font-bold text-xs uppercase tracking-wider shadow-afiche hover:-translate-y-0.5 active:translate-y-0 active:shadow-afiche-sm transition-all">
-          <span>📢</span> Ver Novedades y Promos
-        </button>
-      </div>
     </header>
 
     <!-- INSTRUCCIONES DE COMPRA -->
@@ -972,5 +966,21 @@
       </div>
     </div>
   </div>
+  <!-- BOTÓN FLOTANTE DE ANUNCIOS (SOLO MÓVIL) -->
+  <button
+    onclick="openAdsModal()"
+    id="fab-ads"
+    class="min-[1150px]:hidden fixed bottom-24 left-4 z-40 w-14 h-14 rounded-full bg-cafe text-crema border-2 border-crema/30 shadow-afiche-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-200"
+    title="Ver anuncios y promos"
+    aria-label="Ver anuncios y promos"
+  >
+    <!-- Anillo de pulso animado -->
+    <span class="absolute inset-0 rounded-full bg-cafe/50 animate-ping opacity-60"></span>
+    <!-- Icono megáfono SVG -->
+    <svg class="w-7 h-7 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 11l18-5v12L3 14v-3z" class="fill-crema/20"/>
+      <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+    </svg>
+  </button>
 </body>
 </html>
