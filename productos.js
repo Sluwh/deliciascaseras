@@ -110,7 +110,7 @@ const PRODUCTOS = [
   {
     id: "bizcochos",
     nombre: "Bizcochos de crema, croissants y tipo dona",
-    descripcion: "Margarita con crema, croissants con membrillo, tipo dona con membrillo y tipo dona de chocolate",
+    descripcion: "Margarita con crema, croissants con membrillo y tipo dona con chispitas de chocolate",
     precio: " Consultar",
     categoria: "Dulces",
     icono: "pan",
