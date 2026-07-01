@@ -52,6 +52,31 @@
     .pizarra-borde {
       border: 3px double #2c221e;
     }
+
+    /* Animaciones de flotación rústica */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) rotate(0.5deg); }
+      50% { transform: translateY(-8px) rotate(-0.5deg); }
+    }
+    @keyframes floatMedium {
+      0%, 100% { transform: translateY(0px) rotate(-0.5deg); }
+      50% { transform: translateY(-6px) rotate(0.5deg); }
+    }
+    @keyframes floatDelayed {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-7px) rotate(1deg); }
+    }
+
+    .animate-float-slow {
+      animation: floatSlow 6s ease-in-out infinite;
+    }
+    .animate-float-medium {
+      animation: floatMedium 5s ease-in-out infinite;
+    }
+    .animate-float-delayed {
+      animation: floatDelayed 5.5s ease-in-out infinite;
+      animation-delay: 1s;
+    }
   </style>
 </head>
 <body class="text-cafe font-sans min-h-screen pb-32">
@@ -105,6 +130,27 @@
         <li>Revisá tu pedido en la barra flotante que aparecerá abajo.</li>
         <li>Hacé clic en <strong>"Enviar pedido por WhatsApp"</strong> para enviármelo. ¡Y listo, coordinamos!</li>
       </ol>
+    </div>
+
+    <!-- SECCIÓN DE ANUNCIOS / PROMOS (SOLO EN MÓVIL/TABLET) -->
+    <div class="block min-[1150px]:hidden mb-8">
+      <h3 class="font-serif font-bold text-base mb-3 flex items-center gap-2">
+        <span>📢</span> Nuestras Novedades y Promos
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-crema border-2 border-cafe rounded-lg p-2 shadow-afiche hover:shadow-afiche-lg transition-all transform hover:-translate-y-1 duration-300">
+          <div class="text-center font-serif font-bold text-xxs border-b border-cafe/20 pb-1 mb-1.5 uppercase tracking-wide">📢 Novedades</div>
+          <img src="images/anuncio1.jpeg" alt="Anuncio 1" class="w-full h-auto rounded border border-cafe object-cover cursor-zoom-in" onclick="openImageModal('images/anuncio1.jpeg', 'Novedades y Promos 1')" />
+        </div>
+        <div class="bg-crema border-2 border-cafe rounded-lg p-2 shadow-afiche hover:shadow-afiche-lg transition-all transform hover:-translate-y-1 duration-300">
+          <div class="text-center font-serif font-bold text-xxs border-b border-cafe/20 pb-1 mb-1.5 uppercase tracking-wide">✨ Especial</div>
+          <img src="images/anuncio2.jpeg" alt="Anuncio 2" class="w-full h-auto rounded border border-cafe object-cover cursor-zoom-in" onclick="openImageModal('images/anuncio2.jpeg', 'Novedades y Promos 2')" />
+        </div>
+        <div class="bg-crema border-2 border-cafe rounded-lg p-2 shadow-afiche hover:shadow-afiche-lg transition-all transform hover:-translate-y-1 duration-300">
+          <div class="text-center font-serif font-bold text-xxs border-b border-cafe/20 pb-1 mb-1.5 uppercase tracking-wide">📞 Contacto</div>
+          <img src="images/anuncio3.jpeg" alt="Anuncio 3" class="w-full h-auto rounded border border-cafe object-cover cursor-zoom-in" onclick="openImageModal('images/anuncio3.jpeg', 'Novedades y Promos 3')" />
+        </div>
+      </div>
     </div>
 
     <!-- FILTROS POR CATEGORÍA -->
@@ -793,5 +839,26 @@
       }
     });
   </script>
+
+  <!-- ANUNCIOS FLOTANTES LATERALES (SOLO EN PANTALLAS GRANDES) -->
+  <!-- Lateral Izquierdo -->
+  <div class="hidden min-[1150px]:flex fixed top-24 right-[calc(50%+360px)] w-48 flex-col gap-6 items-end z-10 select-none">
+    <div class="bg-crema border-2 border-cafe rounded-xl p-3 shadow-afiche animate-float-slow hover:scale-105 hover:rotate-1 hover:shadow-afiche-lg transition-all duration-300 w-full">
+      <div class="text-center font-serif font-bold text-xs border-b border-cafe/20 pb-1 mb-2 uppercase tracking-wide">📢 Novedades</div>
+      <img src="images/anuncio1.jpeg" alt="Anuncio 1" class="w-full h-auto rounded-lg border border-cafe object-cover cursor-zoom-in" onclick="openImageModal('images/anuncio1.jpeg', 'Novedades y Promos 1')" />
+    </div>
+    <div class="bg-crema border-2 border-cafe rounded-xl p-3 shadow-afiche animate-float-medium hover:scale-105 hover:-rotate-1 hover:shadow-afiche-lg transition-all duration-300 w-full">
+      <div class="text-center font-serif font-bold text-xs border-b border-cafe/20 pb-1 mb-2 uppercase tracking-wide">✨ Especial</div>
+      <img src="images/anuncio2.jpeg" alt="Anuncio 2" class="w-full h-auto rounded-lg border border-cafe object-cover cursor-zoom-in" onclick="openImageModal('images/anuncio2.jpeg', 'Novedades y Promos 2')" />
+    </div>
+  </div>
+
+  <!-- Lateral Derecho -->
+  <div class="hidden min-[1150px]:flex fixed top-24 left-[calc(50%+360px)] w-48 flex-col gap-6 items-start z-10 select-none">
+    <div class="bg-crema border-2 border-cafe rounded-xl p-3 shadow-afiche animate-float-delayed hover:scale-105 hover:rotate-1 hover:shadow-afiche-lg transition-all duration-300 w-full">
+      <div class="text-center font-serif font-bold text-xs border-b border-cafe/20 pb-1 mb-2 uppercase tracking-wide">📞 Contacto</div>
+      <img src="images/anuncio3.jpeg" alt="Anuncio 3" class="w-full h-auto rounded-lg border border-cafe object-cover cursor-zoom-in" onclick="openImageModal('images/anuncio3.jpeg', 'Novedades y Promos 3')" />
+    </div>
+  </div>
 </body>
 </html>
